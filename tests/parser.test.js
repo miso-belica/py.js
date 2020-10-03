@@ -90,6 +90,48 @@ describe('Tokenizer', function () {
             );
         });
     });
+
+    describe('logical expressions', () => {
+        it('tokenizes simple AND', () => {
+            const tokens = py.tokenize('is_valid and 42');
+            expect(tokens).toHaveTokens(
+                ['(name)', 'is_valid'],
+                ['and', undefined],
+                ['(number)', 42],
+            );
+        });
+        it('tokenizes simple OR', () => {
+            const tokens = py.tokenize('is_valid or is_special');
+            expect(tokens).toHaveTokens(
+                ['(name)', 'is_valid'],
+                ['or', undefined],
+                ['(name)', 'is_special'],
+            );
+        });
+        it('tokenizes logical operators and comparisons', () => {
+            const tokens = py.tokenize('len(utterance) > 10 and count == 3 or mode not in ("debug", "test")');
+            expect(tokens).toHaveTokens(
+                ['(name)', 'len'],
+                ['(', undefined],
+                ['(name)', 'utterance'],
+                [')', undefined],
+                ['>', undefined],
+                ['(number)', 10],
+                ['and', undefined],
+                ['(name)', 'count'],
+                ['==', undefined],
+                ['(number)', 3],
+                ['or', undefined],
+                ['(name)', 'mode'],
+                ['not in', undefined],
+                ['(', undefined],
+                ['(string)', 'debug'],
+                [',', undefined],
+                ['(string)', 'test'],
+                [')', undefined],
+            );
+        });
+    });
 });
 
 describe('Parser', function () {
