@@ -125,7 +125,7 @@ implementation:
     ``py.js`` types.
 
     When accessing instance methods, ``py.js`` automatically wraps
-    these in a variant of ``py.def``, to behave as Python's (bound)
+    these in a variant of ``py.PY_def``, to behave as Python's (bound)
     methods.
 
 Why
