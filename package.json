@@ -2,9 +2,9 @@
   "name": "py.js",
   "version": "1.0.0",
   "devDependencies": {
-    "jest": "^27.5.1"
+    "vitest": "^4.1.10"
   },
   "scripts": {
-    "test": "jest tests"
+    "test": "vitest run"
   }
 }
