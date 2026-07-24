@@ -3,8 +3,14 @@ const py = require('../lib/py.js');
 
 expect.extend({
     toHaveTokens(received, ...tokens) {
-        expect(received.map((t) => [t.id, t.value])).toEqual(tokens.concat([['(end)', undefined]]));
-        return { pass: true };
+        const actual = received.map((t) => [t.id, t.value]);
+        const expected = tokens.concat([['(end)', undefined]]);
+        const pass = this.equals(actual, expected);
+        return {
+            pass,
+            message: () =>
+                `expected tokens ${this.utils.printReceived(actual)} ${pass ? 'not ' : ''}to equal ${this.utils.printExpected(expected)}`,
+        };
     },
     toHaveAst(received, ast) {
         function toTuple(token) {
@@ -20,8 +26,13 @@ expect.extend({
             }
         }
 
-        expect(toTuple(received)).toEqual(ast);
-        return { pass: true };
+        const actual = toTuple(received);
+        const pass = this.equals(actual, ast);
+        return {
+            pass,
+            message: () =>
+                `expected ast ${this.utils.printReceived(actual)} ${pass ? 'not ' : ''}to equal ${this.utils.printExpected(ast)}`,
+        };
     },
 });
 
