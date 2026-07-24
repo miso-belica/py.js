@@ -365,7 +365,7 @@ describe('dicts', function () {
         var d = py.dict.fromJSON();
         expect(function () {
             py.eval('d["foo"]', {d: d});
-        }).toThrowError(/^KeyError/);
+        }).toThrow(/^KeyError/);
     });
     it('should have a method to provide a default value', function () {
         var d = py.dict.fromJSON({foo: 3});
