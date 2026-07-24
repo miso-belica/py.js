@@ -9,15 +9,11 @@ describe('Literals', function () {
         it('should have the right type', function () {
             expect(ev('1')).toEqual(py.float.fromJSON(1));
         });
-        it('should yield the corresponding JS value', function () {
-            expect(py.eval('1')).toBe(1);
-            expect(py.eval('42')).toBe(42);
-            expect(py.eval('9999')).toBe(9999);
+        it.each([1, 42, 9999])('should yield the corresponding JS value for %i', function (value) {
+            expect(py.eval(String(value))).toBe(value);
         });
-        it('should correctly handle negative literals', function () {
-            expect(py.eval('-1')).toBe(-1);
-            expect(py.eval('-42')).toBe(-42);
-            expect(py.eval('-9999')).toBe(-9999);
+        it.each([-1, -42, -9999])('should correctly handle negative literal %i', function (value) {
+            expect(py.eval(String(value))).toBe(value);
         });
         it('should correctly handle float literals', function () {
             expect(py.eval('.42')).toBe(0.42);
