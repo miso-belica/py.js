@@ -136,14 +136,16 @@ describe('Tokenizer', function () {
 
 describe('Parser', function () {
     describe('functions', function () {
-        var ast = py.parse(py.tokenize('foo(bar=3, qux=4)'));
-        expect(ast).toHaveAst([
-            '(',
-            ['(name)', 'foo'],
-            [
-                ['=', ['(name)', 'bar'], ['(number)', 3]],
-                ['=', ['(name)', 'qux'], ['(number)', 4]],
-            ],
-        ]);
+        it('parses kwargs', function () {
+            var ast = py.parse(py.tokenize('foo(bar=3, qux=4)'));
+            expect(ast).toHaveAst([
+                '(',
+                ['(name)', 'foo'],
+                [
+                    ['=', ['(name)', 'bar'], ['(number)', 3]],
+                    ['=', ['(name)', 'qux'], ['(number)', 4]],
+                ],
+            ]);
+        });
     });
 });
