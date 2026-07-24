@@ -297,15 +297,15 @@ describe('Callables', function () {
         })).toBe(true);
     });
     it('should be able to have both args and kwargs', function () {
-        expect(py.eval('foo(1, 2, 3, ok=True, nok=False)', {
-            foo: function (args, kwargs) {
-                expect(args).toHaveLength(3);
-                expect(args[0].toJSON()).toBe(1);
-                expect(Object.keys(kwargs)).toEqual(['ok', 'nok'])
-                expect(kwargs.nok.toJSON()).toBe(false);
-                return kwargs.ok;
-            }
-        })).toBe(true);
+        var foo = vi.fn(function (args, kwargs) { return kwargs.ok; });
+
+        expect(py.eval('foo(1, 2, 3, ok=True, nok=False)', {foo: foo})).toBe(true);
+
+        var [args, kwargs] = foo.mock.calls[0];
+        expect(args).toHaveLength(3);
+        expect(args[0].toJSON()).toBe(1);
+        expect(Object.keys(kwargs)).toEqual(['ok', 'nok']);
+        expect(kwargs.nok.toJSON()).toBe(false);
     });
 });
 describe('issubclass', function () {
